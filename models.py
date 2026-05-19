@@ -1,7 +1,7 @@
 # models.py
 
-from pydantic import BaseModel, EmailStr, Field, field_validator
-from .forms import as_form
+from pydantic import BaseModel, EmailStr, field_validator
+from forms import as_form
 
 
 @as_form
@@ -20,4 +20,9 @@ class EmployeeBase(BaseModel):
 
 @as_form
 class EmployeeCreate(EmployeeBase):
+    pass
+
+
+@as_form
+class EmployeeUpdate(EmployeeBase):
     pass

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Employee</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+        form { display: grid; gap: 0.75rem; }
+        label { display: flex; flex-direction: column; font-size: 0.9rem; }
+        input { padding: 0.5rem; font-size: 1rem; }
+        button { padding: 0.6rem 1rem; font-size: 1rem; cursor: pointer; }
+        .actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <h1>Add Employee</h1>
+    <form action="/add" method="post" enctype="multipart/form-data">
+        <label>First Name
+            <input type="text" name="first_name" required>
+        </label>
+        <label>Last Name
+            <input type="text" name="last_name" required>
+        </label>
+        <label>Email
+            <input type="email" name="email" required>
+        </label>
+        <label>Salary
+            <input type="number" name="salary" step="0.01" min="0" required>
+        </label>
+        <label>Image
+            <input type="file" name="image" accept="image/*">
+        </label>
+        <div class="actions">
+            <button type="submit">Save</button>
+            <a href="/">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>

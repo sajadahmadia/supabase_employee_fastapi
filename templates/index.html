@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees</title>
+    <style>
+        body { font-family: sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 0.6rem; border-bottom: 1px solid #ddd; text-align: left; }
+        th { background: #f4f4f4; }
+        img { height: 48px; width: 48px; object-fit: cover; border-radius: 50%; }
+        .actions a { margin-right: 0.5rem; }
+        .top { display: flex; justify-content: space-between; align-items: center; }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <h1>Employees</h1>
+        <a href="/add">+ Add Employee</a>
+    </div>
+
+    {% if employees %}
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in employees %}
+            <tr>
+                <td>
+                    {% if e.image_url %}
+                        <img src="{{ e.image_url }}" alt="{{ e.first_name }}">
+                    {% endif %}
+                </td>
+                <td>{{ e.first_name }}</td>
+                <td>{{ e.last_name }}</td>
+                <td>{{ e.email }}</td>
+                <td>{{ e.salary }}</td>
+                <td class="actions">
+                    <a href="/edit/{{ e.id }}">Edit</a>
+                    <a href="/deactivate/{{ e.id }}">Deactivate</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No employees yet.</p>
+    {% endif %}
+</body>
+</html>

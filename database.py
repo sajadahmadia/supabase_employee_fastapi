@@ -8,13 +8,13 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-SUPABASE_URL = os.getenv('SUPABASE_URL')
-SUPABASE_KEY = os.getenv('SUPABASE_KEY')
-SUPABASE_BUCKET = os.getenv('SUPABASE_BUCKET')
-
-if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_BUCKET]):
+try:
+    SUPABASE_URL = os.environ['SUPABASE_URL']
+    SUPABASE_KEY = os.environ['SUPABASE_KEY']
+    SUPABASE_BUCKET = os.environ['SUPABASE_BUCKET']
+except KeyError as e:
     raise EnvironmentError(
-        "One or more Supabase environment variables are missing.")
+        f"Missing Supabase environment variable: {e.args[0]}") from e
 
 
 # Initialize Supabase client

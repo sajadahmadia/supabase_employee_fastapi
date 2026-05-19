@@ -22,3 +22,13 @@ def as_form(cls):
                 annotation=model_field.annotation,
             )
         )
+
+    async def _as_form(**data):
+        return cls(**data)
+
+    sig = inspect.signature(_as_form)
+    sig = sig.replace(parameters=new_params)
+    _as_form.__signature__ = sig
+
+    setattr(cls, 'as_form', _as_form)
+    return cls
