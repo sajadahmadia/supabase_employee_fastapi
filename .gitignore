@@ -60,5 +60,8 @@ Thumbs.db
 # Jupyter
 .ipynb_checkpoints/
 
+# Personal notes
+docs/new_learnings/
+
 # FastAPI / ASGI
 .uvicorn.pid
