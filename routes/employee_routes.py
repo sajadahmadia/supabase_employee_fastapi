@@ -4,7 +4,7 @@ from database import supabase, SUPABASE_BUCKET, SUPABASE_URL
 from models import EmployeeCreate, EmployeeUpdate
 from forms import as_form
 from fastapi.templating import Jinja2Templates
-from auth import get_current_user
+from auth import get_current_user, get_admin_user
 
 router = APIRouter()
 templates = Jinja2Templates(directory="./templates")
@@ -29,7 +29,7 @@ async def add_employee(
     request: Request,
     employee: EmployeeCreate = Depends(EmployeeCreate.as_form),
     image: UploadFile = File(None),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_admin_user)
 ):
     image_url = None
 
@@ -58,14 +58,14 @@ async def add_employee(
 
 
 @router.get("/deactivate/{employee_id}")
-async def deactivate_employee(employee_id: int,  current_user: dict = Depends(get_current_user)):
+async def deactivate_employee(employee_id: int,  current_user: dict = Depends(get_admin_user)):
     supabase.table("employees").update(
         {"is_active": False}).eq("id", employee_id).execute()
     return RedirectResponse("/", status_code=303)
 
 
 @router.get('/edit/{employee_id}', response_class=HTMLResponse)
-async def edit_employee_form(request: Request, employee_id: int,  current_user: dict = Depends(get_current_user)):
+async def edit_employee_form(request: Request, employee_id: int,  current_user: dict = Depends(get_admin_user)):
     response = supabase.table('employees').select(
         '*').eq('id', employee_id).execute()
 
@@ -88,7 +88,7 @@ async def edit_employee(
     employee_id: int,
     employee: EmployeeUpdate = Depends(EmployeeUpdate.as_form),
     image: UploadFile = File(None),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_admin_user)
 ):
     image_url = None
 

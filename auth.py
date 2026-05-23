@@ -63,3 +63,19 @@ def get_current_user(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Could not validate user'
         )
+
+
+def get_admin_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security)
+):
+    """Same as get_current_user but also checks for admin role in app_metadata."""
+    payload = get_current_user(credentials)
+    role = payload.get('app_metadata', {}).get('role')
+
+    if role != 'admin':
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail='Admin access required'
+        )
+
+    return payload
