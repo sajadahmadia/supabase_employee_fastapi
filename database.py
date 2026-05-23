@@ -8,14 +8,18 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-try:
-    SUPABASE_URL = os.environ['SUPABASE_URL']
-    SUPABASE_KEY = os.environ['SUPABASE_KEY']
-    SUPABASE_BUCKET = os.environ['SUPABASE_BUCKET']
-except KeyError as e:
+
+SUPABASE_URL = os.environ['SUPABASE_URL']
+SUPABASE_KEY = os.environ['SUPABASE_KEY']
+SUPABASE_BUCKET = os.environ['SUPABASE_BUCKET']
+SUPABASE_JWT_SECRET = os.environ['SUPABASE_JWT_SECRET']
+DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
+if not all([SUPABASE_URL, SUPABASE_KEY, SUPABASE_BUCKET, SUPABASE_JWT_SECRET]):
     raise EnvironmentError(
-        f"Missing Supabase environment variable: {e.args[0]}") from e
+        "one or more supabase environment variables are missing")
 
-
-# Initialize Supabase client
+# Main client for table/storage operations (stays unauthenticated)
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+# Separate client for auth (sign_in/sign_up mutate client state)
+supabase_auth: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
