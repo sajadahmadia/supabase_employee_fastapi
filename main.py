@@ -1,7 +1,7 @@
 # main.py
 
 from fastapi import FastAPI, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from routes import employee_routes, auth_routes
@@ -14,7 +14,7 @@ app = FastAPI()
 async def auth_redirect(request: Request, exc: StarletteHTTPException):
     if exc.status_code in (401, 403):
         return RedirectResponse('/login')
-    raise exc
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
 
 
 # Set up templates
